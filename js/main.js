@@ -17,11 +17,6 @@ if (document.getElementById('btnLimpar')) {
     document.getElementById('btnLimpar').addEventListener('click', limparOrcamento);
 }
 
-// Evento de salvar orçamento
-if (document.getElementById('btnSalvar')) {
-    document.getElementById('btnSalvar').addEventListener('click', salvarOrcamento);
-}
-
 // Evento de gerar PDF
 if (document.getElementById('btnPDF')) {
     document.getElementById('btnPDF').addEventListener('click', gerarPDF);
@@ -137,6 +132,7 @@ if (document.getElementById('dataOrcamento')) {
 
 // Inicialização
 if (document.getElementById('listaOrcamentos')) {
-    carregarDados();
-    carregarOrcamentos();
+    window.addEventListener('load', function() {
+        carregarOrcamentos();
+    });
 }
