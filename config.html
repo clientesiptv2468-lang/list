@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - App de Orçamentos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .config-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .config-header {
+            background: linear-gradient(135deg, #0066cc 0%, #7a7a7a 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .config-header h1 {
+            margin: 0;
+        }
+
+        .config-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .config-section h2 {
+            color: #0066cc;
+            margin-top: 0;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 10px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .color-group {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+        }
+
+        .color-input {
+            width: 80px;
+            height: 50px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .logo-preview {
+            max-width: 200px;
+            max-height: 100px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-salvar {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #0066cc 0%, #7a7a7a 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: opacity 0.3s;
+        }
+
+        .btn-salvar:hover {
+            opacity: 0.9;
+        }
+
+        .btn-salvar:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .preview-box {
+            background: #f9f9f9;
+            border: 2px dashed #0066cc;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .preview-box h3 {
+            color: #0066cc;
+            margin-top: 0;
+        }
+
+        .preview-header {
+            background: linear-gradient(135deg, var(--cor-primaria, #0066cc) 0%, var(--cor-secundaria, #7a7a7a) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .preview-logo {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .preview-logo img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .success-message {
+            background: #c8e6c9;
+            border: 1px solid #4caf50;
+            color: #2e7d32;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .info-box strong {
+            color: #1976D2;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .config-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <h1 class="logo">⚙️ Configurações</h1>
+        </div>
+        <div class="header-right">
+            <button id="btnSair" class="btn-sair">Sair</button>
+        </div>
+    </header>
+
+    <div class="config-container">
+        <div class="info-box">
+            <strong>ℹ️ Personalize seu aplicativo</strong><br>
+            Customize logo, cores, dados da empresa e nome do aplicativo para sua marca.
+        </div>
+
+        <div id="mensagemSucesso" class="success-message">
+            ✅ Configurações salvas com sucesso!
+        </div>
+
+        <!-- Seção Informações da Empresa -->
+        <div class="config-section">
+            <h2>🏢 Informações da Empresa</h2>
+            <form id="formConfig">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nomeEmpresa">Nome da Empresa</label>
+                        <input type="text" id="nomeEmpresa" placeholder="Ex: CAST">
+                    </div>
+                    <div class="form-group">
+                        <label for="nomeApp">Nome do App</label>
+                        <input type="text" id="nomeApp" placeholder="Ex: ORÇAMENTO EXPRESSO">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="contato@empresa.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="tel" id="telefone" placeholder="(11) 9999-9999">
+                    </div>
+                </div>
+
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label for="endereco">Endereço</label>
+                        <textarea id="endereco" placeholder="Rua, número, bairro, cidade, estado"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Seção Logo -->
+        <div class="config-section">
+            <h2>🖼️ Logo da Empresa</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="logoUpload">Upload do Logo (PNG ou JPG)</label>
+                    <input type="file" id="logoUpload" accept="image/png,image/jpeg">
+                    <small style="color: #666; margin-top: 5px;">Recomendado: imagem quadrada, máximo 500KB</small>
+                    <div id="logoPreview"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção Cores -->
+        <div class="config-section">
+            <h2>🎨 Personalização de Cores</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="corPrimaria">Cor Primária (Azul)</label>
+                    <div class="color-group">
+                        <input type="color" id="corPrimaria" class="color-input" value="#0066cc">
+                        <input type="text" id="corPrimariaHex" value="#0066cc" style="flex: 1;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="corSecundaria">Cor Secundária (Cinza)</label>
+                    <div class="color-group">
+                        <input type="color" id="corSecundaria" class="color-input" value="#7a7a7a">
+                        <input type="text" id="corSecundariaHex" value="#7a7a7a" style="flex: 1;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="corPainelPDF">Cor dos Painéis do PDF</label>
+                    <div class="color-group">
+                        <input type="color" id="corPainelPDF" class="color-input" value="#0066cc">
+                        <input type="text" id="corPainelPDFHex" value="#0066cc" style="flex: 1;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="preview-box">
+            <h3>👁️ Preview</h3>
+            <div class="preview-header" id="previewHeader">
+                <div class="preview-logo" id="previewLogo">LOGO</div>
+                <div>
+                    <strong id="previewNomeApp">ORÇAMENTO EXPRESSO</strong><br>
+                    <small id="previewNomeEmpresa">CAST</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botão Salvar -->
+        <div style="text-align: center; margin-top: 30px;">
+            <button id="btnSalvarConfig" class="btn-salvar">💾 Salvar Configurações</button>
+        </div>
+    </div>
+
+    <script src="js/auth-secure.js"></script>
+    <script src="js/branding.js"></script>
+    <script>
+        // Verificar autenticação
+        window.addEventListener('load', function() {
+            if (!verificarAutenticacao()) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const usuario = obterUsuarioAutenticado();
+            if (!usuario || usuario.papel !== 'admin') {
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            // Carregar configurações existentes
+            carregarConfigurações();
+        });
+
+        // Carregar configurações
+        function carregarConfigurações() {
+            const config = obterConfigBranding();
+            
+            document.getElementById('nomeEmpresa').value = config.nomeEmpresa;
+            document.getElementById('nomeApp').value = config.nomeApp;
+            document.getElementById('email').value = config.email;
+            document.getElementById('telefone').value = config.telefone;
+            document.getElementById('endereco').value = config.endereco;
+            document.getElementById('corPrimaria').value = config.corPrimaria;
+            document.getElementById('corPrimariaHex').value = config.corPrimaria;
+            document.getElementById('corSecundaria').value = config.corSecundaria;
+            document.getElementById('corSecundariaHex').value = config.corSecundaria;
+            document.getElementById('corPainelPDF').value = config.corPainelPDF;
+            document.getElementById('corPainelPDFHex').value = config.corPainelPDF;
+
+            // Renderizar logo
+            if (config.logo) {
+                document.getElementById('logoPreview').innerHTML = `<img src="${config.logo}" class="logo-preview">`;
+                document.getElementById('previewLogo').innerHTML = `<img src="${config.logo}" style="max-width: 100%; max-height: 100%;">`;
+            }
+
+            atualizarPreview();
+        }
+
+        // Upload de logo
+        document.getElementById('logoUpload').addEventListener('change', function(e) {
+            const arquivo = e.target.files[0];
+            if (!arquivo) return;
+
+            if (arquivo.size > 500000) {
+                alert('Arquivo muito grande! Máximo 500KB');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const dataUrl = event.target.result;
+                document.getElementById('logoPreview').innerHTML = `<img src="${dataUrl}" class="logo-preview">`;
+                document.getElementById('previewLogo').innerHTML = `<img src="${dataUrl}" style="max-width: 100%; max-height: 100%;">`;
+                salvarLogo(dataUrl);
+            };
+            reader.readAsDataURL(arquivo);
+        });
+
+        // Sincronizar cores
+        document.getElementById('corPrimaria').addEventListener('change', function() {
+            document.getElementById('corPrimariaHex').value = this.value;
+            atualizarPreview();
+        });
+
+        document.getElementById('corPrimariaHex').addEventListener('change', function() {
+            document.getElementById('corPrimaria').value = this.value;
+            atualizarPreview();
+        });
+
+        document.getElementById('corSecundaria').addEventListener('change', function() {
+            document.getElementById('corSecundariaHex').value = this.value;
+            atualizarPreview();
+        });
+
+        document.getElementById('corSecundariaHex').addEventListener('change', function() {
+            document.getElementById('corSecundaria').value = this.value;
+            atualizarPreview();
+        });
+
+        document.getElementById('corPainelPDF').addEventListener('change', function() {
+            document.getElementById('corPainelPDFHex').value = this.value;
+        });
+
+        document.getElementById('corPainelPDFHex').addEventListener('change', function() {
+            document.getElementById('corPainelPDF').value = this.value;
+        });
+
+        // Sincronizar preview com inputs
+        document.getElementById('nomeApp').addEventListener('input', atualizarPreview);
+        document.getElementById('nomeEmpresa').addEventListener('input', atualizarPreview);
+
+        function atualizarPreview() {
+            const corPrimaria = document.getElementById('corPrimaria').value;
+            const corSecundaria = document.getElementById('corSecundaria').value;
+            const nomeApp = document.getElementById('nomeApp').value || 'ORÇAMENTO EXPRESSO';
+            const nomeEmpresa = document.getElementById('nomeEmpresa').value || 'CAST';
+
+            document.getElementById('previewHeader').style.background = `linear-gradient(135deg, ${corPrimaria} 0%, ${corSecundaria} 100%)`;
+            document.getElementById('previewNomeApp').textContent = nomeApp;
+            document.getElementById('previewNomeEmpresa').textContent = nomeEmpresa;
+        }
+
+        // Salvar configurações
+        document.getElementById('btnSalvarConfig').addEventListener('click', function() {
+            const config = {
+                nomeEmpresa: document.getElementById('nomeEmpresa').value || 'CAST',
+                nomeApp: document.getElementById('nomeApp').value || 'ORÇAMENTO EXPRESSO',
+                email: document.getElementById('email').value,
+                telefone: document.getElementById('telefone').value,
+                endereco: document.getElementById('endereco').value,
+                logo: obterConfigBranding().logo,
+                corPrimaria: document.getElementById('corPrimaria').value,
+                corSecundaria: document.getElementById('corSecundaria').value,
+                corPainelPDF: document.getElementById('corPainelPDF').value
+            };
+
+            salvarConfigBranding(config);
+            
+            // Mostrar mensagem de sucesso
+            const msg = document.getElementById('mensagemSucesso');
+            msg.classList.add('show');
+            setTimeout(() => {
+                msg.classList.remove('show');
+            }, 3000);
+        });
+
+        // Logout
+        document.getElementById('btnSair').addEventListener('click', fazerLogout);
+    </script>
+</body>
+</html>
